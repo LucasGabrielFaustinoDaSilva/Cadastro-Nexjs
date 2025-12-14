@@ -2,8 +2,24 @@ import React from "react";
 import Image from "next/image";
 import styles from "./index.module.css";
 import Layout from "../components/Layout";
+import Tabela from "../components/Tabela";
+import Cliente from "../core/Cliente";
 
 export default function Home() {
+  const clientes = [
+    new Cliente('Ana', 34, '1'),
+    new Cliente('Bia', 21, '2'),
+    new Cliente('Maria', 39, '3'),
+    new Cliente('Pedro', 23, '4'),
+  ]
+
+  function clienteSelecionado(cliente:Cliente){
+    console.log(cliente.nome)
+  }
+  function clienteExcluido(cliente:Cliente){
+    console.log(`excluido ${cliente.nome}`)
+  }
+  
   return (
    <div className={`
       flex justify-center items-center h-screen bg-gradient-to-r from-blue-500 to-purple-500 text-white
@@ -11,7 +27,8 @@ export default function Home() {
     `
     }>
     <Layout titulo="Cadastro Simples">
-      <span>Conteudo</span>
+      <Tabela clientes={clientes} clienteSelecionado={clienteSelecionado}
+      clienteExcluido={clienteExcluido}/>
     </Layout>
    </div>
   );
