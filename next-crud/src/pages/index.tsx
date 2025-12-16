@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import styles from "./index.module.css";
 import Layout from "../components/Layout";
@@ -21,6 +21,12 @@ export default function Home() {
   function clienteExcluido(cliente:Cliente){
     console.log(`excluido ${cliente.nome}`)
   }
+
+  function salvarCliente(cliente: Cliente){
+    console.log(cliente)
+  }
+
+  const [visivel,setVisivel] = useState<'tabela' | 'form'>('tabela')
   
   return (
    <div className={`
@@ -29,13 +35,22 @@ export default function Home() {
     `
     }>
     <Layout titulo="Cadastro Simples">
-
-      <div className="flex justify-end">
-        <Botao cor="green" className="mb-4">Novo Cliente</Botao>
-      </div>
-      <Tabela clientes={clientes} clienteSelecionado={clienteSelecionado}
-      clienteExcluido={clienteExcluido}/>
-      <Formulario cliente={clientes[2]}/>
+      {visivel === 'tabela' ? (
+        <>
+        <div className="flex justify-end">
+          <Botao cor="green" className="mb-4" onClick={() => setVisivel('form')}>Novo Cliente</Botao>
+        </div>
+        <Tabela clientes={clientes} clienteSelecionado={clienteSelecionado}
+        clienteExcluido={clienteExcluido}/>
+      </>
+      ):(
+        <Formulario cliente={clientes[2]}
+          clienteMudou={salvarCliente}
+        cancelado={() => setVisivel('tabela')}
+        />
+      )}
+      
+      
     </Layout>
    </div>
   );
